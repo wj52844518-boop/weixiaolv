@@ -1,0 +1,201 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "刑事追刑战术载荷（Penalty Tactical Payload）",
+  "description": "execution-penalty 三引擎运算完毕后，向 case.json 黑板写入本载荷，作为与 execution-documents（行辕）深度对齐的法定数据契约。",
+  "version": "1.0",
+  "type": "object",
+  "required": ["penalty_case_id", "target_debtor", "substantive_metrics", "procedural_decision", "evidence_chain", "document_package"],
+  "properties": {
+    "penalty_case_id": {
+      "type": "string",
+      "description": "刑事追刑案件唯一标识，格式：CRIM_CASE_{年份}_{序号}"
+    },
+    "target_debtor": {
+      "type": "string",
+      "description": "被追诉人（被告人）姓名"
+    },
+    "applicant": {
+      "type": "string",
+      "description": "自诉人（申请执行人）姓名"
+    },
+    "substantive_metrics": {
+      "type": "object",
+      "description": "实体构成要件评估结果",
+      "required": ["completeness_score", "matched_triggers", "primary_trigger", "severity_level", "is_prosecution_ready"],
+      "properties": {
+        "completeness_score": {
+          "type": "number",
+          "minimum": 0.0,
+          "maximum": 1.0,
+          "description": "实体构成要件完成度（0.0-1.0）"
+        },
+        "matched_triggers": {
+          "type": "array",
+          "description": "命中的情节严重特征码列表",
+          "items": {
+            "type": "object",
+            "required": ["code", "description", "legal_basis", "evidence_status"],
+            "properties": {
+              "code": {"type": "string", "description": "特征码编号，如 T1/T1.5/TS1"},
+              "description": {"type": "string", "description": "特征描述"},
+              "legal_basis": {"type": "string", "description": "对应法条"},
+              "evidence_status": {"type": "string", "enum": ["complete", "partial", "missing"]}
+            }
+          }
+        },
+        "primary_trigger": {
+          "type": "string",
+          "description": "主特征码（评分最高的那个）"
+        },
+        "severity_level": {
+          "type": "string",
+          "enum": ["不构成犯罪", "构成犯罪（一般情节）", "情节特别严重（3-7年）"],
+          "description": "严重程度等级"
+        },
+        "is_prosecution_ready": {
+          "type": "boolean",
+          "description": "是否具备追刑条件（评分≥0.70 + 证据部分完成以上）"
+        }
+      }
+    },
+    "procedural_decision": {
+      "type": "object",
+      "description": "追刑路径决策结果（2025意见第15-18条对齐）",
+      "required": ["applicable_route", "action_required", "target_template", "rationale"],
+      "properties": {
+        "applicable_route": {
+          "type": "string",
+          "enum": ["NONE", "COURT_PUBLIC_TRANSFER", "PUBLIC_REPORT_FIRST", "PRIVATE_PROSECUTION"],
+          "description": "追刑路径枚举"
+        },
+        "route_display": {
+          "type": "string",
+          "description": "路径中文名称"
+        },
+        "action_required": {
+          "type": "string",
+          "description": "下一步动作指令"
+        },
+        "target_template": {
+          "type": "string",
+          "description": "目标文书模板文件名"
+        },
+        "rationale": {
+          "type": "string",
+          "description": "决策理由（含法条索引）"
+        },
+        "statutory_deadline": {
+          "type": ["string", "null"],
+          "description": "法定时限提醒"
+        },
+        "pre_conditions_satisfied": {
+          "type": "object",
+          "description": "自诉前置条件满足情况",
+          "properties": {
+            "has_filed_report": {"type": "boolean"},
+            "days_since_filed": {"type": "integer"},
+            "has_written_response": {"type": "boolean"},
+            "has_non_filing_notice": {"type": "boolean"},
+            "has_procurator_non_prosecution": {"type": "boolean"},
+            "rule_applied": {"type": "string"}
+          }
+        }
+      }
+    },
+    "evidence_chain": {
+      "type": "object",
+      "description": "刑事证据链评估结果（排除合理怀疑标准）",
+      "required": ["overall_chain_health", "burden_shift_result", "elements", "gaps", "investigation_applications"],
+      "properties": {
+        "overall_chain_health": {
+          "type": "number",
+          "minimum": 0.0,
+          "maximum": 1.0,
+          "description": "证据链完整度（0.0-1.0）"
+        },
+        "burden_shift_result": {
+          "type": "string",
+          "description": "举证责任判断结论"
+        },
+        "elements": {
+          "type": "array",
+          "description": "四要件证据要素详情",
+          "items": {
+            "type": "object",
+            "required": ["element_id", "description", "legal_nature", "standard", "burden_party", "status"],
+            "properties": {
+              "element_id": {"type": "string"},
+              "description": {"type": "string"},
+              "legal_nature": {"type": "string"},
+              "standard": {"type": "string"},
+              "burden_party": {"type": "string"},
+              "status": {"type": "string", "enum": ["complete", "partial", "missing"]},
+              "existing_evidence": {"type": "array", "items": {"type": "string"}},
+              "missing_evidence": {"type": "array", "items": {"type": "string"}},
+              "suggestion": {"type": "string"}
+            }
+          }
+        },
+        "gaps": {
+          "type": "array",
+          "description": "证据缺口清单",
+          "items": {"type": "string"}
+        },
+        "investigation_applications": {
+          "type": "array",
+          "description": "自动生成的律师调查令申请书草案列表",
+          "items": {"type": "string"}
+        }
+      }
+    },
+    "document_package": {
+      "type": "object",
+      "description": "待生成文书包",
+      "properties": {
+        "primary_document": {
+          "type": "string",
+          "description": "主文书模板路径"
+        },
+        "supporting_documents": {
+          "type": "array",
+          "description": "辅助文书列表",
+          "items": {
+            "type": "object",
+            "properties": {
+              "document_name": {"type": "string"},
+              "template_path": {"type": "string"},
+              "purpose": {"type": "string"}
+            }
+          }
+        },
+        "output_directory": {
+          "type": "string",
+          "description": "文书输出目录（相对路径）"
+        }
+      }
+    },
+    "metadata": {
+      "type": "object",
+      "description": "元数据",
+      "properties": {
+        "generated_at": {"type": "string", "format": "date-time"},
+        "skill_version": {"type": "string"},
+        "engine_versions": {
+          "type": "object",
+          "properties": {
+            "trigger_checker": {"type": "string"},
+            "route_selector": {"type": "string"},
+            "evidence_mapper": {"type": "string"}
+          }
+        },
+        "legal_basis": {
+          "type": "object",
+          "properties": {
+            "substantive": {"type": "string"},
+            "procedural": {"type": "string"}
+          }
+        }
+      }
+    }
+  }
+}
