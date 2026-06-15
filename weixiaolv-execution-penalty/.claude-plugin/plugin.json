@@ -1,0 +1,30 @@
+{
+  "schema_version": "v1.0",
+  "name": "weixiaolv-execution-penalty",
+  "displayName": "中国拒执罪刑事自诉与追刑助手",
+  "version": "1.0.0",
+  "description": "基于2024年两高最新解释（法释〔2024〕13号）及2025年两高一部意见（法发〔2025〕8号），对被执行人恶意逃债行为进行「情节严重」特征检测、公诉转自诉「30日程序前置窗口」自动计算、并一键生成刑事自诉状/控告书。",
+  "author": "OpenClaw 韦小律 Team",
+  "homepage": "https://github.com/openclaw/weixiaolv-execution-penalty",
+  "supported_skills": ["execution-penalty"],
+  "min_mcp_version": "0.5.0",
+  "tags": ["legal", "china", "enforcement", "litigation", "criminal-prosecution"],
+  "keywords": ["拒执罪", "拒不执行判决裁定罪", "刑事自诉", "以刑促执", "执行", "老赖"],
+  "license": "Apache-2.0",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/openclaw/weixiaolv-execution-penalty"
+  },
+  "dependencies": {
+    "python": ">=3.9"
+  },
+  "capabilities": {
+    "case_context_free": true,
+    "offline_capable": true,
+    "privacy_focused": true
+  },
+  "legal_basis": {
+    "substantive": "法释〔2024〕13号（2024-12-01施行）",
+    "procedural": "法发〔2025〕8号（2025-07-01施行）"
+  }
+}
