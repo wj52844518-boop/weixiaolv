@@ -1,0 +1,54 @@
+{
+  "schema_version": "v1.0",
+  "marketplace": "anthropic",
+  "listing": {
+    "name": "weixiaolv-execution-penalty",
+    "display_name_zh": "韦小律·拒执罪刑事追刑助手",
+    "display_name_en": "Weixiaolv – CN Execution Evasion Prosecutor",
+    "tagline": "全球首个对中国执行老赖「以刑促执」的 AI 法律插件——深度对齐2024两高解释+2025两高一部意见，三引擎联动输出刑事自诉全案文书包。",
+    "category": "Legal Tech",
+    "subcategory": "Criminal Litigation / Enforcement",
+    "language": ["zh-CN", "en-US"],
+    "screenshots": [],
+    "version": "1.0.0",
+    "release_date": "2026-06-15",
+    "changelog": {
+      "1.0.0": "首发版本：法释〔2024〕13号 + 法发〔2025〕8号双司法解释对齐 + 三引擎联动"
+    },
+    "author": {
+      "name": "OpenClaw 韦小律 Team",
+      "email": "legal@openclaw.ai",
+      "github": "https://github.com/openclaw",
+      "organization": "OpenClaw / 韦小律法律智能"
+    },
+    "pricing": {
+      "model": "open_source",
+      "price": 0.00,
+      "currency": "USD"
+    },
+    "documentation": {
+      "quick_start": "README.md",
+      "full_docs": "SKILL.md",
+      "api_reference": "CONNECTORS.md",
+      "chinese_reference": "references/2024_judicial_interpretation.md"
+    },
+    "compliance": {
+      "jurisdiction": "中华人民共和国",
+      "applicable_laws": [
+        "《中华人民共和国刑法》第313条",
+        "《最高人民法院、最高人民检察院关于办理拒不执行判决、裁定刑事案件适用法律若干问题的解释》（法释〔2024〕13号）",
+        "《最高人民法院、最高人民检察院、公安部关于办理拒不执行判决、裁定刑事案件若干问题的意见》（法发〔2025〕8号）"
+      ],
+      "data_privacy": "所有案件数据仅在本地处理，不上传至任何外部服务器。"
+    },
+    "badges": [
+      "open_source",
+      "china_legal",
+      "production_ready"
+    ]
+  },
+  "submit": {
+    "target": "anthropic_plugin_marketplace",
+    "review_notes": "本插件为全球首个对中国执行案件「拒执罪刑事追责」进行程序决策自动化的开源 AI 工具。核心差异化：(1) 2024解释新增T1.5特征码——判决生效前恶意转移财产可追溯；(2) 2025意见「30天自诉前置窗口」自动计算；(3) 三引擎（trigger_checker + route_selector + evidence_mapper）联动输出完整刑事文书包。完全适配 Claude Desktop 本地隐私沙箱，中国执业律师开箱即用。"
+  }
+}
