@@ -1,0 +1,242 @@
+{
+  "$schema": "https://weixiaolv.ai/schemas/countermeasure-matrix-v1.schema.json",
+  "version": "1.0",
+  "title": "逃废债伎俩 → 法律反制路径映射矩阵",
+  "description": "execution-countermeasures 核心资产：特征码碰撞路由表",
+
+
+  "tactic_mappings": [
+    {
+      "tactic_code": "TACTIC_NATURAL_DIVORCE",
+      "tactic_name": "假离婚析产（自然人）",
+      "behavior_signature": "离婚协议财产分割严重偏颇，离婚时间节点临近判决/执行",
+      "route_type": "LITIGATION_EXPANSION",
+      "litigation_expansion_path": {
+        "action_name": "债权人撤销权之诉（民法典§538）+ 婚姻财产追溯",
+        "reference_doc": "52_litigation_expansion.md#情形1",
+        "statute_rule": "《民法典》第538条（无偿处分财产权益）",
+        "key_evidence": ["离婚协议", "婚姻登记日期", "离婚后财产流向", "离婚前后银行流水"]
+      },
+      "direct_expansion_path": null
+    },
+    {
+      "tactic_code": "TACTIC_CORP_SHELL_TRANSFER",
+      "tactic_name": "公司资产零对价/低价转让给关联人",
+      "behavior_signature": "判决或执行期间将名下资产零对价或低价转让给亲属/关联人",
+      "route_type": "LITIGATION_EXPANSION",
+      "litigation_expansion_path": {
+        "action_name": "提起债权人撤销权之诉",
+        "reference_doc": "52_litigation_expansion.md#情形1_2",
+        "statute_rule": "《民法典》第538条（无偿转让）/第539条（不合理低价）",
+        "key_evidence": ["转让合同", "资金流水", "关联关系证明", "转让时间节点"]
+      },
+      "direct_expansion_path": null
+    },
+    {
+      "tactic_code": "TACTIC_SHAREHOLDER_UNPAID_CAPITAL",
+      "tactic_name": "股东认缴出资未届满即转让股权，或存在出资不实",
+      "behavior_signature": "公司股东认缴期限未到即转让股权，或公司资产不足以清偿债务",
+      "route_type": "DIRECT_EXPANSION",
+      "direct_expansion_path": {
+        "action_name": "申请执行程序中直接追加未出资股东为被执行人",
+        "reference_doc": "28_direct_expansion.md#追加11",
+        "statute_rule": "《追加变更被执行人规定》第17条；新《公司法》第88条"
+      },
+      "litigation_expansion_path": {
+        "action_name": "追收未缴出资纠纷（公司法解释二第13条）",
+        "reference_doc": "52_litigation_expansion.md#情形6",
+        "statute_rule": "《公司法》解释（二）第13条；新《公司法》第49条",
+        "key_evidence": ["公司章程", "出资期限", "验资报告", "股权转让合同"]
+      }
+    },
+    {
+      "tactic_code": "TACTIC_SHAREHOLDER逃亡HIDING",
+      "tactic_name": "股东抽逃出资",
+      "behavior_signature": "股东在出资后又将出资转出，资金流向关联人账户",
+      "route_type": "DIRECT_EXPANSION",
+      "direct_expansion_path": {
+        "action_name": "申请追加抽逃出资的股东为被执行人",
+        "reference_doc": "28_direct_expansion.md#追加12",
+        "statute_rule": "《追加变更被执行人规定》第18条"
+      },
+      "litigation_expansion_path": {
+        "action_name": "追收抽逃出资纠纷（公司法解释二第14条）",
+        "reference_doc": "52_litigation_expansion.md#情形7",
+        "statute_rule": "《公司法》解释（三）第14条",
+        "key_evidence": ["验资户资金流向", "转入方与股东关联性", "银行转账记录"]
+      }
+    },
+    {
+      "tactic_code": "TACTIC_CORP_SHELL_SWAP",
+      "tactic_name": "金蝉脱壳（脱壳逃债）",
+      "behavior_signature": "将核心业务/人员/客户转移至新公司，原公司空壳化",
+      "route_type": "LITIGATION_EXPANSION",
+      "litigation_expansion_path": {
+        "action_name": "股东损害公司债权人利益责任纠纷（人格否认）",
+        "reference_doc": "52_litigation_expansion.md#情形13_横向人格否认",
+        "statute_rule": "新《公司法》第23条第1款（横向人格否认）",
+        "key_evidence": ["业务转移证据", "人员在两个公司的任职重叠", "财务混同"]
+      },
+      "direct_expansion_path": null
+    },
+    {
+      "tactic_code": "TACTIC_CORP_ILLEGAL_REDUCTION",
+      "tactic_name": "违法减资",
+      "behavior_signature": "未依法通知已知债权人，以减资为名抽逃资产",
+      "route_type": "LITIGATION_EXPANSION",
+      "litigation_expansion_path": {
+        "action_name": "股东损害公司债权人利益责任纠纷",
+        "reference_doc": "52_litigation_expansion.md#情形16_恶意处置公司资产",
+        "statute_rule": "《公司法》第177条（违法减资）；新《公司法》第226条",
+        "key_evidence": ["减资公告", "债权人通知记录", "减资后资产流向"]
+      },
+      "direct_expansion_path": null
+    },
+    {
+      "tactic_code": "TACTIC_CORP_ILLEGAL_LIQUIDATION",
+      "tactic_name": "违法清算/注销",
+      "behavior_signature": "未经依法清算即办理注销登记，或以虚假清算报告骗取注销",
+      "route_type": "DIRECT_EXPANSION",
+      "direct_expansion_path": {
+        "action_name": "申请追加未经清算注销的股东、董事、控股股东为被执行人",
+        "reference_doc": "28_direct_expansion.md#追加15",
+        "statute_rule": "《追加变更被执行人规定》第21条"
+      },
+      "litigation_expansion_path": {
+        "action_name": "清算责任纠纷/损害公司债权人利益责任纠纷（公司法解释二第20条）",
+        "reference_doc": "52_litigation_expansion.md#情形29_30",
+        "statute_rule": "《公司法》解释（二）第20条",
+        "key_evidence": ["清算报告真实性", "注销登记材料", "资产处置记录"]
+      }
+    },
+    {
+      "tactic_code": "TACTIC_ONE_PERSON_COMPANY_MINGLING",
+      "tactic_name": "一人公司财产混同",
+      "behavior_signature": "一人有限责任公司与股东账户资金混同，股东不能证明公司财产独立",
+      "route_type": "DIRECT_EXPANSION",
+      "direct_expansion_path": {
+        "action_name": "申请追加一人公司股东为被执行人（举证责任倒置）",
+        "reference_doc": "28_direct_expansion.md#追加14",
+        "statute_rule": "《追加变更被执行人规定》第20条；新《公司法》第23条"
+      },
+      "litigation_expansion_path": {
+        "action_name": "股东损害公司债权人利益责任纠纷（公司法第63条）",
+        "reference_doc": "52_litigation_expansion.md#情形12",
+        "statute_rule": "《公司法》第63条",
+        "key_evidence": ["财务账册", "银行流水", "审计报告", "股东账户与公司账户往来"]
+      }
+    },
+    {
+      "tactic_code": "TACTIC_NATURAL_FAKE_LEASE",
+      "tactic_name": "虚构长期租赁关系（以租抵债）",
+      "behavior_signature": "伪造20年长期租约，阻止房产拍卖交付",
+      "route_type": "LITIGATION_EXPANSION",
+      "litigation_expansion_path": {
+        "action_name": "执行异议之诉（排除虚假租赁，排除买卖不破租赁适用）",
+        "reference_doc": "52_litigation_expansion.md#情形1",
+        "statute_rule": "《民法典》第725条（买卖不破租赁例外）；《执行异议和复议规定》第31条",
+        "key_evidence": ["租赁合同签订时间", "租金支付记录", "物业费/水电费缴纳人", "实际占有使用证据"]
+      },
+      "direct_expansion_path": null
+    },
+    {
+      "tactic_code": "TACTIC_CORP_DEFAMT_HIDING",
+      "tactic_name": "公司资金挂在他人名下（股东/会计/员工个人账户）",
+      "behavior_signature": "收款账户使用老板娘/会计/司机个人账户，资金实际由公司控制人支配",
+      "route_type": "LITIGATION_EXPANSION",
+      "litigation_expansion_path": {
+        "action_name": "股东损害公司债权人利益责任纠纷（财产混同）",
+        "reference_doc": "52_litigation_expansion.md#情形14_纵向人格否认",
+        "statute_rule": "新《公司法》第23条第1款",
+        "key_evidence": ["银行回单", "账户实际控制人", "资金归集路径", "会计凭证"]
+      },
+      "direct_expansion_path": null
+    },
+    {
+      "tactic_code": "TACTIC_CORP_NAME_ADDR_CHANGE",
+      "tactic_name": "更改公司名称/地址/跨区迁移 + 更换法定代表人",
+      "behavior_signature": "核心资产留在旧壳，主体迁移增加查找难度，原法定代表人退出",
+      "route_type": "DIRECT_EXPANSION",
+      "direct_expansion_path": {
+        "action_name": "申请追加原法定代表人/股东为被执行人（财产混同或恶意变更）",
+        "reference_doc": "28_direct_expansion.md#追加20",
+        "statute_rule": "《最高院关于依法制裁规避执行行为的若干意见》第20条"
+      },
+      "litigation_expansion_path": {
+        "action_name": "股东损害公司债权人利益责任纠纷（过度支配与控制）",
+        "reference_doc": "52_litigation_expansion.md#情形20",
+        "statute_rule": "《公司法》第20条；新《公司法》第21条；九民会议纪要第（四）部分第11条",
+        "key_evidence": ["工商变更时间节点", "资产权属对应", "控制关系证据"]
+      }
+    },
+    {
+      "tactic_code": "TACTIC_NATURAL_DUAL_HOUSEHOLD",
+      "tactic_name": "双户口/多护照（自然人）",
+      "behavior_signature": "两个户口或多本护照，资产分散登记，规避查封",
+      "route_type": "LITIGATION_EXPANSION",
+      "litigation_expansion_path": {
+        "action_name": "追加被执行人配偶财产（婚姻关系存续期间取得的财产）；申请律师调查令核查另一身份名下财产",
+        "reference_doc": "execution_methodology.md#五_找人找钱九大基本动作",
+        "statute_rule": "《民法典》第1062条（夫妻共同财产）；《查封规定》第12条",
+        "key_evidence": ["户籍注销记录", "护照号码核查", "两个身份分别持有的财产线索"]
+      },
+      "direct_expansion_path": null
+    },
+    {
+      "tactic_code": "TACTIC_CORP_CLONING",
+      "tactic_name": "克隆（冒名登记）",
+      "behavior_signature": "设立与被执行人同名或近似公司，混淆执行，转移资产至新壳",
+      "route_type": "LITIGATION_EXPANSION",
+      "litigation_expansion_path": {
+        "action_name": "股东损害公司债权人利益责任纠纷（横向人格否认）",
+        "reference_doc": "52_litigation_expansion.md#情形13_横向人格否认",
+        "statute_rule": "新《公司法》第23条第1款；九民会议纪要第（四）部分第10-11条",
+        "key_evidence": ["公司字号近似度", "实际控制人同一性", "人员重叠证据", "业务混同证据"]
+      },
+      "direct_expansion_path": null
+    }
+  ],
+
+  "route_type_summary": {
+    "DIRECT_EXPANSION": {
+      "description": "执行程序内直接追加/变更被执行人（无需另案起诉）",
+      "applicable_statutes": [
+        "《最高人民法院关于人民法院执行工作若干问题的规定(试行)》第16-22条",
+        "《最高人民法院关于民事执行中变更、追加当事人若干问题的规定》"
+      ],
+      "key_advantage": "效率高、速度快（执行法院直接裁定，无需另行诉讼）",
+      "key_risk": "被申请人可提起执行异议之诉，异议成立则回转"
+    },
+    "LITIGATION_EXPANSION": {
+      "description": "另行提起诉讼穿透追加（须通过审判程序）",
+      "applicable_statutes": [
+        "《民法典》合同编（债权人撤销权§538/539、代位权§535）",
+        "《公司法》及三个司法解释（人格否认§23、发起人责任、出资责任等）",
+        "《企业破产法》及司法解释"
+      ],
+      "key_advantage": "法律效果强（判决既判力），可追责范围更广",
+      "key_risk": "周期长（6-18个月），需准备完整证据链"
+    }
+  },
+
+  "priority_rules": {
+    "P0_MUST_TRY_DIRECT_FIRST": [
+      "TACTIC_SHAREHOLDER_UNPAID_CAPITAL",
+      "TACTIC_SHAREHOLDER逃亡HIDING",
+      "TACTIC_ONE_PERSON_COMPANY_MINGLING",
+      "TACTIC_CORP_ILLEGAL_LIQUIDATION"
+    ],
+    "P0_ALWAYS_LITIGATION_ONLY": [
+      "TACTIC_NATURAL_DIVORCE",
+      "TACTIC_CORP_SHELL_TRANSFER",
+      "TACTIC_NATURAL_FAKE_LEASE",
+      "TACTIC_CORP_DEFAMT_HIDING",
+      "TACTIC_CORP_CLONING"
+    ],
+    "P1_DUAL_TRACK": [
+      "TACTIC_CORP_SHELL_SWAP",
+      "TACTIC_CORP_ILLEGAL_REDUCTION",
+      "TACTIC_CORP_NAME_ADDR_CHANGE"
+    ]
+  }
+}
